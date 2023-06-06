@@ -56,6 +56,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  bool _flag = false;
 
   void _incrementCounter() {
     setState(() {
@@ -65,6 +66,12 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+    });
+  }
+
+  void _click() async {
+    setState(() {
+      _flag = !_flag;
     });
   }
 
@@ -112,11 +119,41 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            AnimatedOpacity(
+              opacity: _flag ? 0.1 : 1.0,
+              duration: const Duration(seconds: 3),
+              child: SizedBox(
+                width: _flag ? 50 : 200,
+                height: _flag ? 50 : 200,
+                child: Text("消える文字", style: Theme.of(context).textTheme.headlineMedium,),
+              ),
+            ),
+            AnimatedSize(
+              duration: const Duration(seconds: 3),
+              child: SizedBox(
+                width: _flag ? 50 : 200,
+                height: _flag ? 50 : 200,
+                child: Container(
+                  color: Colors.purple,
+                ),
+              ),
+            ),
+            AnimatedAlign(
+              alignment: _flag ? Alignment.topLeft : Alignment.bottomRight,
+              duration: const Duration(seconds: 1),
+              child: SizedBox(
+                width: 50,
+                height: 50,
+                child: Container(
+                  color: Colors.green,
+                ),
+              ),
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: _click,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
